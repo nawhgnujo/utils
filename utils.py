@@ -35,12 +35,35 @@ def reorder_files():
     os.rename(path3 + file, path3 + new)
   return 0
 ##################################################################
+def change_filename():
+  list1 = os.listdir(path1)
+  list2 = os.listdir(path2)
+  list3 = os.listdir(path3)
+
+  for file in list1:
+    split1 = file.split('.')
+    split2 = split1[0].split('_')
+    new = split2[2] + '.jpg'
+    os.rename(path1 + file, path1 + new)
+
+  for file in list2:
+    split1 = file.split('.')
+    split2 = split1[0].split('_')
+    new = split2[2] + '.jpg'
+    os.rename(path2 + file, path2 + new)
+
+  for file in list3:
+    split1 = file.split('.')
+    split2 = split1[0].split('_')
+    new = split2[2] + '.jpg'
+    os.rename(path3 + file, path3 + new)
+##################################################################
 def change_filename2(fpath):
   for file in glob.glob(fpath):
     new_name = file.replace('-outputs.png', '.png')
     os.rename(file, new_name)
 ##################################################################
-def change_filename():
+def change_filename3():
 
   if os.path.isfile(work_path + 'index.html'):
     print('exist')
@@ -121,6 +144,8 @@ def make_html():
   filelist = os.listdir(path1)
   filelist.sort()
 
+  avg_psnr = [0, 0, 0]
+
   index = 0
   for file in filelist:
     img_path1 = './inputs/' + file ##os.path.join('./', 'inputs/' + file)
@@ -139,6 +164,10 @@ def make_html():
     ssim1 = ssim(img1/255, img4/255)
     ssim2 = ssim(img2/255, img4/255)
     ssim3 = ssim(img3/255, img4/255)
+
+    avg_psnr[0] += psnr1
+    avg_psnr[1] += psnr2
+    avg_psnr[2] += psnr3
 
     psnr_values = [psnr1, psnr2, psnr3]
     max_psnr_index = psnr_values.index( max(psnr_values) )
@@ -182,6 +211,45 @@ def make_html():
 
   print('PSNR wins = {}, {}, {}'.format(psnr_count[0], psnr_count[1], psnr_count[2]))
   print('SSIM wins = {}, {}, {}'.format(ssim_count[0], ssim_count[1], ssim_count[2]))
+  print('AVG PSNR = {}, {}'.format(avg_psnr[0]/200, avg_psnr[1]/200))
+##################################################################
+def qualities():
+
+  filelist = os.listdir(path1)
+  filelist.sort()
+
+  avg_psnr = [0, 0, 0]
+  avg_ssim = [0, 0, 0]
+
+  index = 0
+  for file in filelist:
+    img_path1 = './inputs/' + file ##os.path.join('./', 'inputs/' + file)
+    img_path2 = './outputs/' + file ##os.path.join('./', 'outputs/' + file)
+    img_path3 = './outputs/' + file ##os.path.join('./', 'outputs/' + file)
+    img_path4 = './targets/' + file ##os.path.join('./', 'targets/' + file)
+
+    img1 = scipy.misc.imread(work_path + img_path1, flatten=True).astype(np.float32)
+    img2 = scipy.misc.imread(work_path + img_path2, flatten=True).astype(np.float32)
+    img3 = scipy.misc.imread(work_path + img_path3, flatten=True).astype(np.float32)
+    img4 = scipy.misc.imread(work_path + img_path4, flatten=True).astype(np.float32)
+
+    psnr1 = psnr(img1, img4)
+    psnr2 = psnr(img2, img4)
+    psnr3 = psnr(img3, img4)
+    ssim1 = ssim(img1/255, img4/255)
+    ssim2 = ssim(img2/255, img4/255)
+    ssim3 = ssim(img3/255, img4/255)
+
+    avg_psnr[0] += psnr1
+    avg_psnr[1] += psnr2
+    avg_psnr[2] += psnr3
+
+    avg_ssim[0] += ssim1
+    avg_ssim[1] += ssim2
+    avg_ssim[2] += ssim3
+
+  print('AVG PSNR = {}, {}'.format(avg_psnr[0]/200, avg_psnr[1]/200))
+  print('AVG SSIM = {}, {}'.format(avg_ssim[0]/200, avg_ssim[1]/200))
 ##################################################################
 def test():
   a = 123
@@ -196,6 +264,6 @@ def test():
 ##################################################################
 
 
-change_filename()
-reorder_files()
-make_html()
+##change_filename()
+##make_html()
+qualities()
