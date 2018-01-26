@@ -145,6 +145,7 @@ def make_html():
   filelist.sort()
 
   avg_psnr = [0, 0, 0]
+  avg_ssim = [0, 0, 0]
 
   index = 0
   for file in filelist:
@@ -168,6 +169,10 @@ def make_html():
     avg_psnr[0] += psnr1
     avg_psnr[1] += psnr2
     avg_psnr[2] += psnr3
+
+    avg_ssim[0] += ssim1
+    avg_ssim[1] += ssim2
+    avg_ssim[2] += ssim3
 
     psnr_values = [psnr1, psnr2, psnr3]
     max_psnr_index = psnr_values.index( max(psnr_values) )
