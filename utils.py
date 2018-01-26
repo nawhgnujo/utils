@@ -43,19 +43,19 @@ def change_filename():
   for file in list1:
     split1 = file.split('.')
     split2 = split1[0].split('_')
-    new = split2[2] + '.jpg'
+    new = split2[0] + split2[2] + '.jpg'
     os.rename(path1 + file, path1 + new)
 
   for file in list2:
     split1 = file.split('.')
     split2 = split1[0].split('_')
-    new = split2[2] + '.jpg'
+    new = split2[0] + split2[2] + '.jpg'
     os.rename(path2 + file, path2 + new)
 
   for file in list3:
     split1 = file.split('.')
     split2 = split1[0].split('_')
-    new = split2[2] + '.jpg'
+    new = split2[0] + split2[2] + '.jpg'
     os.rename(path3 + file, path3 + new)
 ##################################################################
 def change_filename2(fpath):
@@ -264,6 +264,6 @@ def test():
 ##################################################################
 
 
-##change_filename()
+change_filename()
 ##make_html()
-qualities()
+##qualities()
