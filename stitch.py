@@ -3,9 +3,9 @@ import os
 import glob
 from skimage import io, color
 
-imgA_dir = '../ILSVRC/val_blur/'
-imgB_dir = '../ILSVRC/val_crop/'
-out_dir = '../ILSVRC/val/'
+imgA_dir = './train_blur/'
+imgB_dir = './train_crop/'
+out_dir = './train/'
 
 if not os.path.exists(out_dir):
     os.mkdir(out_dir)
